@@ -18,6 +18,11 @@ app.use((req, res, next) => {
   next();
 });
 
+// Connect to the database before any API route runs
+app.use('/api', async (req, res, next) => {
+  try { await connectDB(); next(); } catch (e) { next(e); }
+});
+
 // API
 app.use('/api/public', require('./routes/public'));
 app.use('/api/auth', require('./routes/auth'));
@@ -27,9 +32,8 @@ app.use('/api/barber', require('./routes/barber'));
 app.use('/api', (req, res) => res.status(404).json({ message: 'Not found.' }));
 
 // Frontend (served from ../frontend)
-app.use('/api', async (req, res, next) => {
-  try { await connectDB(); next(); } catch (e) { next(e); }
-});
+app.use(express.static(path.join(__dirname, '..', 'frontend')));
+
 // Errors
 app.use((err, req, res, next) => {
   if (err.type === 'entity.parse.failed') return res.status(400).json({ message: 'Invalid request.' });
