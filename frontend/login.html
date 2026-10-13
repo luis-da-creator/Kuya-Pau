@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Customer Login · Kuya Pau's Barbershop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="center-page" data-page="customer-login">
+  <div class="stripe"></div>
+  <main class="wrap narrow">
+    <div class="brand-block">
+      <h1>Kuya Pau's Barbershop</h1>
+      <div class="muted">Customer Login</div>
+    </div>
+    <section class="card">
+      <div class="tabs-inline">
+        <button class="btn" id="tab-login" type="button">Login</button>
+        <button class="btn" id="tab-register" type="button">Create account</button>
+      </div>
+
+      <form id="form-login">
+        <label>Email <input type="email" id="l-email" autocomplete="email" required></label>
+        <label>Password <input type="password" id="l-pass" autocomplete="current-password" required></label>
+        <button class="btn primary block" type="submit">Login</button>
+      </form>
+
+      <form id="form-register" hidden>
+        <label>Full name <input id="r-name" autocomplete="name" required minlength="2"></label>
+        <label>Email <input type="email" id="r-email" autocomplete="email" required></label>
+        <label>Mobile number <input type="tel" id="r-phone" placeholder="09171234567" autocomplete="tel" required></label>
+        <label>Password <input type="password" id="r-pass" autocomplete="new-password" minlength="8" required></label>
+        <button class="btn primary block" type="submit">Create account</button>
+      </form>
+      <p class="err" id="msg"></p>
+    </section>
+    <p class="muted small center" style="margin-top:14px"><a href="index.html">Back to terms</a></p>
+  </main>
+  <footer class="footer">Kuya Pau's Barbershop since 2021</footer>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

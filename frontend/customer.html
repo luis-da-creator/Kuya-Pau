@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Reserve · Kuya Pau's Barbershop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="stripe"></div>
+  <header class="topbar">
+    <div class="wrap bar">
+      <a class="brand" href="#reserve">Kuya <b>Pau's</b></a>
+      <nav class="tabs" id="nav">
+        <a href="#reserve" data-view="reserve">Reserve</a>
+        <a href="#services" data-view="services">Services</a>
+        <a href="#about" data-view="about">About Us</a>
+        <a href="#description" data-view="description">Description</a>
+        <a href="#contact" data-view="contact">Contact Us</a>
+        <a href="#mine" data-view="mine">My Reservations</a>
+      </nav>
+      <div class="who"><span class="muted small" id="who"></span><button class="btn ghost sm" id="logout">Logout</button></div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- RESERVE -->
+    <section class="view" id="view-reserve">
+      <h2>Reserve a slot</h2>
+      <div class="split">
+        <form class="card" id="res-form" novalidate>
+          <label>Service <select id="f-service" required></select></label>
+          <label>Barber <select id="f-barber" required></select></label>
+          <label>Date <input type="date" id="f-date" required></label>
+          <div class="lbl">Time
+            <div class="slots" id="slots"><span class="muted small">Choose a barber and a date.</span></div>
+          </div>
+          <label>Notes <span class="muted small" id="notes-hint">(optional)</span>
+            <textarea id="f-notes" rows="3" maxlength="300" placeholder="Anything the barber should know"></textarea>
+          </label>
+          <hr>
+          <p><b>Down payment</b><br><span class="muted" id="pay-help"></span></p>
+          <label>Payment reference no. <input id="f-ref" maxlength="30" placeholder="From your payment receipt" autocomplete="off" required></label>
+          <button class="btn primary block" type="submit" id="res-submit">Submit reservation</button>
+          <p class="err" id="res-msg"></p>
+        </form>
+        <aside class="card sum" id="summary"></aside>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="view" id="view-services">
+      <h2>Services</h2>
+      <div class="grid" id="svc-grid"></div>
+    </section>
+
+    <!-- ABOUT US -->
+    <section class="view" id="view-about">
+      <h2>About Us</h2>
+      <div class="split even">
+        <div class="card" id="about-info"></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Barber</th><th>Status</th><th>Days</th><th>Shift</th></tr></thead>
+            <tbody id="about-barbers"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- DESCRIPTION -->
+    <section class="view" id="view-description">
+      <h2>Description</h2>
+      <div class="split even">
+        <div class="card">
+          <p class="quote" id="quote"></p>
+          <p>Kuya Pau's Barbershop has been giving clean cuts and fresh braids to Marilao since 2021. Pick a barber, pick a time, and we'll have the chair ready for you.</p>
+          <p class="muted">Braids start at ₱600. The final price depends on the braid style and whether extensions are needed. Describe it in the notes when you reserve.</p>
+        </div>
+        <div class="card" id="suggest"><h3>Suggested for you</h3><p class="muted">Loading…</p></div>
+      </div>
+    </section>
+
+    <!-- CONTACT US -->
+    <section class="view" id="view-contact">
+      <h2>Contact Us</h2>
+      <div class="card" id="contact-card"></div>
+    </section>
+
+    <!-- MY RESERVATIONS -->
+    <section class="view" id="view-mine">
+      <h2>My Reservations</h2>
+      <div id="mine-list"><p class="muted">Loading…</p></div>
+    </section>
+  </main>
+
+  <dialog id="done">
+    <h3>Reservation submitted</h3>
+    <p id="done-msg"></p>
+    <div class="dlg-actions"><button class="btn primary" id="done-ok">OK</button></div>
+  </dialog>
+
+  <footer class="footer">Kuya Pau's Barbershop since 2021</footer>
+  <script src="js/api.js"></script>
+  <script src="js/customer.js"></script>
+</body>
+</html>

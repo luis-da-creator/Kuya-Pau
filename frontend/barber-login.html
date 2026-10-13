@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Barber Login · Kuya Pau's Barbershop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="center-page" data-page="barber-login">
+  <div class="stripe"></div>
+  <main class="wrap narrow">
+    <div class="brand-block">
+      <h1>Kuya Pau's Barbershop</h1>
+      <div class="muted">Barber Login</div>
+    </div>
+    <section class="card">
+      <form id="form-staff">
+        <label>Username <input id="s-user" autocomplete="username" required></label>
+        <label>Password <input type="password" id="s-pass" autocomplete="current-password" required></label>
+        <button class="btn primary block" type="submit">Login &amp; Time In</button>
+        <p class="muted small">Logging in records your Time In for today.</p>
+        <p class="err" id="msg"></p>
+      </form>
+    </section>
+  </main>
+  <footer class="footer">Kuya Pau's Barbershop since 2021</footer>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

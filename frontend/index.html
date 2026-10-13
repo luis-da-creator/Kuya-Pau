@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Terms &amp; Conditions · Kuya Pau's Barbershop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="center-page">
+  <div class="stripe"></div>
+  <main class="wrap narrow">
+    <div class="brand-block">
+      <h1>Kuya Pau's Barbershop</h1>
+      <div class="muted">Online Reservation</div>
+    </div>
+    <section class="card">
+      <h2>Terms &amp; Conditions</h2>
+      <p class="muted">Please read and agree before you log in or create an account.</p>
+      <ol class="terms">
+        <li><b>50% down payment.</b> You must pay 50% of the service price before a slot can be reserved. A ₱150 haircut needs ₱75 and ₱600 braids need ₱300.</li>
+        <li><b>Late arrival.</b> Arriving late adds ₱20 to your balance.</li>
+        <li><b>Balance.</b> The remaining balance is paid at the shop after the service.</li>
+        <li><b>Cancellation.</b> Cancel at least 12 hours before your schedule to get your down payment refunded. Cancelling less than 12 hours before, or not showing up, means the 50% down payment is <b>not refunded</b>.</li>
+        <li><b>Confirmation.</b> Your slot is confirmed once the shop verifies your down payment. A verification code is sent to your email/SMS after you book. Show it at the shop.</li>
+      </ol>
+      <label class="check"><input type="checkbox" id="agree"> I have read and agree to these terms.</label>
+      <button class="btn primary block" id="continue" disabled>Continue to Login</button>
+    </section>
+    <p class="muted small center" style="margin-top:14px"><a href="admin-login.html">Admin</a> · <a href="barber-login.html">Barber</a></p>
+  </main>
+  <footer class="footer">Kuya Pau's Barbershop since 2021</footer>
+  <script>
+    const agree = document.getElementById('agree'), go = document.getElementById('continue');
+    agree.addEventListener('change', () => (go.disabled = !agree.checked));
+    go.addEventListener('click', () => { sessionStorage.setItem('kp_terms', '1'); location.href = 'login.html'; });
+  </script>
+</body>
+</html>

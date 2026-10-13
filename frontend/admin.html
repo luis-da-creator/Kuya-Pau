@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Admin · Kuya Pau's Barbershop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="stripe"></div>
+  <header class="topbar">
+    <div class="wrap bar">
+      <a class="brand" href="#dashboard">Kuya <b>Pau's</b> · Admin</a>
+      <nav class="tabs" id="nav">
+        <a href="#dashboard" data-view="dashboard">Dashboard</a>
+        <a href="#bookings" data-view="bookings">Reservations</a>
+        <a href="#barbers" data-view="barbers">Barbers</a>
+        <a href="#customers" data-view="customers">Customers</a>
+        <a href="#transactions" data-view="transactions">Transactions</a>
+      </nav>
+      <div class="who"><button class="btn ghost sm" id="logout">Logout</button></div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- DASHBOARD -->
+    <section class="view" id="view-dashboard">
+      <h2>Dashboard</h2>
+      <div class="kpis" id="kpis"></div>
+      <div class="split even">
+        <div class="card"><h3>Weekly income <span class="muted small">(week starting)</span></h3><div class="chart-box"><canvas id="chart-weekly"></canvas></div></div>
+        <div class="card"><h3>Monthly income</h3><div class="chart-box"><canvas id="chart-monthly"></canvas></div></div>
+      </div>
+    </section>
+
+    <!-- RESERVATIONS -->
+    <section class="view" id="view-bookings">
+      <h2>Reservations</h2>
+      <div class="inline">
+        <label>Status
+          <select id="b-status">
+            <option value="pending">Pending</option><option value="approved">Approved</option><option value="completed">Completed</option>
+            <option value="cancelled">Cancelled</option><option value="forfeited">Forfeited</option><option value="rejected">Rejected</option><option value="all">All</option>
+          </select>
+        </label>
+        <label>Date <input type="date" id="b-date"></label>
+        <label>Search <input id="b-q" placeholder="Code, name or payment ref"></label>
+        <button class="btn" id="b-go" type="button">Search</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Code</th><th>Customer</th><th>Service</th><th>Barber</th><th>Schedule</th><th>Payment</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="b-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- BARBERS -->
+    <section class="view" id="view-barbers">
+      <div class="inline" style="justify-content:space-between;align-items:center">
+        <h2 style="margin:0">Barbers</h2>
+        <button class="btn primary" id="add-barber" type="button" style="flex:0 0 auto">Add barber</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Name</th><th>Username</th><th>Status</th><th>Days</th><th>Shift</th><th>Today in</th><th>Today out</th><th></th></tr></thead>
+          <tbody id="barber-body"></tbody>
+        </table>
+      </div>
+      <h3 style="margin-top:28px">Time in / out log</h3>
+      <div class="inline">
+        <label>From <input type="date" id="a-from"></label>
+        <label>To <input type="date" id="a-to"></label>
+        <label>Barber <select id="a-barber"><option value="">All barbers</option></select></label>
+        <button class="btn" id="a-go" type="button">Show</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Date</th><th>Barber</th><th>Time in</th><th>Time out</th></tr></thead>
+          <tbody id="att-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- CUSTOMERS -->
+    <section class="view" id="view-customers">
+      <h2>Customers who came to the shop</h2>
+      <div class="split even">
+        <div class="card"><h3>Trending haircuts &amp; services</h3><div class="chart-box"><canvas id="chart-trend"></canvas></div></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Customer</th><th>Contact</th><th>Visits</th><th>Last visit</th></tr></thead>
+            <tbody id="cust-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRANSACTIONS -->
+    <section class="view" id="view-transactions">
+      <h2>Transaction history</h2>
+      <div class="inline">
+        <label>From <input type="date" id="t-from"></label>
+        <label>To <input type="date" id="t-to"></label>
+        <label>Type
+          <select id="t-type"><option value="">All</option><option value="downpayment">Down payment</option><option value="balance">Balance</option><option value="refund">Refund</option><option value="forfeit">Forfeit</option></select>
+        </label>
+        <label>Search <input id="t-q" placeholder="Customer or code"></label>
+        <button class="btn" id="t-go" type="button">Show</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Date</th><th>Code</th><th>Customer</th><th>Service</th><th>Barber</th><th>Type</th><th class="right">Amount</th><th>Note</th></tr></thead>
+          <tbody id="t-body"></tbody>
+          <tfoot><tr><td colspan="6"></td><td class="right"><b id="t-total"></b></td><td class="muted small">Net total</td></tr></tfoot>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Complete reservation -->
+  <dialog id="dlg-complete">
+    <form id="complete-form">
+      <h3>Complete reservation</h3>
+      <p id="c-info" class="muted"></p>
+      <label class="check"><input type="checkbox" id="c-late"> Customer arrived late (adds ₱20)</label>
+      <label>Extra charge (₱) <span class="muted small">e.g. braid extensions</span> <input type="number" id="c-extra" min="0" max="5000" step="10" value="0"></label>
+      <div class="sum"><div><span>Balance to collect</span><b id="c-balance"></b></div></div>
+      <div class="dlg-actions">
+        <button class="btn ghost" type="button" id="c-cancel">Back</button>
+        <button class="btn primary" type="submit">Mark completed</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Add / edit barber -->
+  <dialog id="dlg-barber">
+    <form id="barber-form">
+      <h3 id="bf-title">Add barber</h3>
+      <label>Name <input id="bf-name" required minlength="2"></label>
+      <label>Username <input id="bf-user" required autocomplete="off"></label>
+      <label>Password <input type="password" id="bf-pass" autocomplete="new-password" placeholder=""></label>
+      <label>Status
+        <select id="bf-status"><option value="active">Active</option><option value="on-leave">On leave</option><option value="resigned">Resigned</option></select>
+      </label>
+      <div class="lbl">Work days <div class="days" id="bf-days"></div></div>
+      <div class="inline">
+        <label>Shift start <select id="bf-start"></select></label>
+        <label>Shift end <select id="bf-end"></select></label>
+      </div>
+      <p class="err" id="bf-msg"></p>
+      <div class="dlg-actions">
+        <button class="btn ghost" type="button" id="bf-cancel">Cancel</button>
+        <button class="btn primary" type="submit">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <footer class="footer">Kuya Pau's Barbershop since 2021</footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
