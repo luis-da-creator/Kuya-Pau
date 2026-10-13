@@ -27,8 +27,9 @@ app.use('/api/barber', require('./routes/barber'));
 app.use('/api', (req, res) => res.status(404).json({ message: 'Not found.' }));
 
 // Frontend (served from ../frontend)
-app.use(express.static(path.join(__dirname, '..', 'frontend')));
-
+app.use('/api', async (req, res, next) => {
+  try { await connectDB(); next(); } catch (e) { next(e); }
+});
 // Errors
 app.use((err, req, res, next) => {
   if (err.type === 'entity.parse.failed') return res.status(400).json({ message: 'Invalid request.' });
@@ -38,10 +39,14 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: 'Server error. Please try again.' });
 });
 
-const PORT = process.env.PORT || 5000;
-connectDB()
-  .then(() => app.listen(PORT, () => console.log(`Kuya Pau's Barbershop running at http://localhost:${PORT}`)))
-  .catch((err) => {
-    console.error('Could not connect to MongoDB:', err.message);
-    process.exit(1);
-  });
+module.exports = app;
+
+if (require.main === module) {
+  const PORT = process.env.PORT || 5000;
+  connectDB()
+    .then(() => app.listen(PORT, () => console.log(`Kuya Pau's Barbershop running at http://localhost:${PORT}`)))
+    .catch((err) => {
+      console.error('Could not connect to MongoDB:', err.message);
+      process.exit(1);
+    });
+}
