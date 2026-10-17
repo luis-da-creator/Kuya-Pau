@@ -8,6 +8,8 @@ const User = require('./models/User');
 const Barber = require('./models/Barber');
 const Service = require('./models/Service');
 
+const WOMEN = ['Wolf Cut (W)', 'Layered Cut (W)', 'Apple Cut']; // women's haircuts
+
 const SERVICES = [
   { name: 'Low Taper', category: 'haircut', price: 150, image: 'images/Low-taper.jpg', description: 'Low taper with a clean, natural top.' },
   { name: 'Mid Taper', category: 'haircut', price: 150, image: 'images/Mid-taper.jpg', description: 'Mid taper that fades smoothly into the top.' },
@@ -60,7 +62,11 @@ const BARBERS = [
   }
 
   for (const s of SERVICES) {
-    await Service.updateOne({ name: s.name }, { $set: { ...s, active: true } }, { upsert: true });
+    await Service.updateOne(
+      { name: s.name },
+      { $set: { ...s, gender: s.category === 'haircut' ? (WOMEN.includes(s.name) ? 'women' : 'men') : '', active: true } },
+      { upsert: true }
+    );
   }
   await Service.updateMany({ name: { $nin: SERVICES.map((s) => s.name) } }, { $set: { active: false } });
   console.log(`Services ready: ${SERVICES.map((s) => `${s.name} ₱${s.price}`).join(', ')}`);

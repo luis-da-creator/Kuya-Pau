@@ -20,7 +20,12 @@ $('#logout').onclick = () => logout('customer');
 function renderInfo() {
   const { shop, services, barbers, payment } = info;
 
-  $('#svc-grid').innerHTML = services.map((s) => `
+    const GROUPS = [
+    { title: "Men's Haircuts", match: (s) => s.category === 'haircut' && s.gender !== 'women' },
+    { title: "Women's Haircuts", match: (s) => s.category === 'haircut' && s.gender === 'women' },
+    { title: 'Braids', match: (s) => s.category === 'braids' },
+  ];
+  const svcCard = (s) => `
     <article class="card svc">
       <img src="${esc(s.image)}" alt="${esc(s.name)}" loading="lazy">
       <div class="body">
@@ -29,10 +34,20 @@ function renderInfo() {
         <p class="muted small">${esc(s.description)}</p>
         <button class="btn primary" data-reserve="${esc(s.id)}">Reserve this</button>
       </div>
-    </article>`).join('');
+    </article>`;
 
-  $('#f-service').innerHTML = '<option value="">Choose a service…</option>' +
-    services.map((s) => `<option value="${esc(s.id)}">${esc(s.name)} · ${peso(s.price)}</option>`).join('');
+  $('#svc-grid').innerHTML = GROUPS.map((g) => {
+    const list = services.filter(g.match);
+    return list.length ? `<h2 style="grid-column:1/-1;margin:14px 0 0">${g.title}</h2>` + list.map(svcCard).join('') : '';
+  }).join('');
+
+  $('#f-service').innerHTML = '<option value="">Choose a service…</option>' + GROUPS.map((g) => {
+    const list = services.filter(g.match);
+    return list.length
+      ? `<optgroup label="${g.title}">` + list.map((s) => `<option value="${esc(s.id)}">${esc(s.name)} · ${peso(s.price)}</option>`).join('') + '</optgroup>'
+      : '';
+  }).join('');
+  
   $('#f-barber').innerHTML = '<option value="">Choose a barber…</option>' +
     barbers.filter((b) => b.status === 'active').map((b) => `<option value="${esc(b.id)}">${esc(b.name)}</option>`).join('');
 
