@@ -8,8 +8,6 @@ const User = require('./models/User');
 const Barber = require('./models/Barber');
 const Service = require('./models/Service');
 
-const WOMEN = ['Wolf Cut (W)', 'Layered Cut (W)', 'Apple Cut']; // women's haircuts
-
 const SERVICES = [
   { name: 'Low Taper', category: 'haircut', price: 150, image: 'images/Low-taper.jpg', description: 'Low taper with a clean, natural top.' },
   { name: 'Mid Taper', category: 'haircut', price: 150, image: 'images/Mid-taper.jpg', description: 'Mid taper that fades smoothly into the top.' },
@@ -21,9 +19,9 @@ const SERVICES = [
   { name: '16 Guard', category: 'haircut', price: 150, image: 'images/16-Guard.jpg', description: 'Taper with a textured top.' },
   { name: '12 Guard', category: 'haircut', price: 150, image: 'images/12-guard.jpg', description: 'Taper with a spiky top.' },
   { name: 'Buzz Cut', category: 'haircut', price: 150, image: 'images/Buzzcut.jpg', description: 'Clean, short buzz cut with a fade.' },
-  { name: 'Wolf Cut (W)', category: 'haircut', price: 150, image: 'images/Wolfcut-w.jpg', description: 'Feathered, choppy layers with lots of movement.' },
-  { name: 'Apple Cut', category: 'haircut', price: 150, image: 'images/Apple-cut.jpg', description: 'Neat short cut with a soft side part.' },
-  { name: 'Layered Cut (W)', category: 'haircut', price: 150, image: 'images/Layered-w.jpg', description: 'Medium-length layers with curtain bangs.' },
+  { name: 'Wolf Cut (W)', category: 'women-haircut', price: 150, image: 'images/Wolfcut-w.jpg', description: 'Feathered, choppy layers with lots of movement.' },
+  { name: 'Apple Cut', category: 'women-haircut', price: 150, image: 'images/Apple-cut.jpg', description: 'Neat short cut with a soft side part.' },
+  { name: 'Layered Cut (W)', category: 'women-haircut', price: 150, image: 'images/Layered-w.jpg', description: 'Medium-length layers with curtain bangs.' },
   { name: 'Box Braids', category: 'braids', price: 600, image: 'images/box-braids.jpg', description: 'Starts at ₱600. The final price depends on length and extensions, so describe it in the notes when you reserve.' },
   { name: 'Cornrows Braids', category: 'braids', price: 600, image: 'images/Cornrows-braids.jpg', description: 'Starts at ₱600. The final price depends on the number of rows and extensions.' },
   { name: 'Two Twist Braids', category: 'braids', price: 600, image: 'images/two-twist-Braids.jpg', description: 'Starts at ₱600. The final price depends on hair length and twist size.' },
@@ -62,11 +60,7 @@ const BARBERS = [
   }
 
   for (const s of SERVICES) {
-    await Service.updateOne(
-      { name: s.name },
-      { $set: { ...s, gender: s.category === 'haircut' ? (WOMEN.includes(s.name) ? 'women' : 'men') : '', active: true } },
-      { upsert: true }
-    );
+    await Service.updateOne({ name: s.name }, { $set: { ...s, active: true } }, { upsert: true });
   }
   await Service.updateMany({ name: { $nin: SERVICES.map((s) => s.name) } }, { $set: { active: false } });
   console.log(`Services ready: ${SERVICES.map((s) => `${s.name} ₱${s.price}`).join(', ')}`);
