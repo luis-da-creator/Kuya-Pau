@@ -20,9 +20,9 @@ $('#logout').onclick = () => logout('customer');
 function renderInfo() {
   const { shop, services, barbers, payment } = info;
 
-    const GROUPS = [
-    { title: "Men's Haircuts", match: (s) => s.category === 'haircut' && s.gender !== 'women' },
-    { title: "Women's Haircuts", match: (s) => s.category === 'haircut' && s.gender === 'women' },
+     const GROUPS = [
+    { title: "Men's Haircuts", match: (s) => s.category === 'haircut' },
+    { title: "Women's Haircuts", match: (s) => s.category === 'women-haircut' },
     { title: 'Braids', match: (s) => s.category === 'braids' },
   ];
   const svcCard = (s) => `
@@ -47,7 +47,7 @@ function renderInfo() {
       ? `<optgroup label="${g.title}">` + list.map((s) => `<option value="${esc(s.id)}">${esc(s.name)} · ${peso(s.price)}</option>`).join('') + '</optgroup>'
       : '';
   }).join('');
-  
+
   $('#f-barber').innerHTML = '<option value="">Choose a barber…</option>' +
     barbers.filter((b) => b.status === 'active').map((b) => `<option value="${esc(b.id)}">${esc(b.name)}</option>`).join('');
 
