@@ -9,30 +9,24 @@ const Barber = require('./models/Barber');
 const Service = require('./models/Service');
 
 const SERVICES = [
-  { name: 'Regular Haircut', category: 'haircut', price: 150, image: 'images/haircut-regular.jpg', description: 'Classic short textured cut, neat and clean.' },
-  { name: 'Taper Fade', category: 'haircut', price: 150, image: 'images/haircut-taper-fade.jpg', description: 'Short sides that fade smoothly into the top.' },
-  { name: 'Crew Cut', category: 'haircut', price: 150, image: 'images/haircut-crew-cut.jpg', description: 'Short, low-maintenance cut that is easy to style.' },
-  { name: 'Undercut', category: 'haircut', price: 150, image: 'images/haircut-undercut.jpg', description: 'Shaved sides with a longer top you can slick back or style up.' },
-  { name: 'Spiky Taper', category: 'haircut', price: 150, image: 'images/haircut-spiky-taper.jpg', description: 'Spiked, textured top with a low taper on the sides.' },
-  { name: 'Textured Taper', category: 'haircut', price: 150, image: 'images/haircut-textured-taper.jpg', description: 'Messy textured top with a clean taper.' },
-  { name: 'Curly Taper', category: 'haircut', price: 150, image: 'images/haircut-curly-taper.jpg', description: 'Fluffy, curly top with a tight taper.' },
-  { name: 'Jay Jo Mullet', category: 'haircut', price: 150, image: 'images/haircut-jay-jo-mullet.jpg', description: 'Modern mullet with a textured fringe and longer back.' },
-  { name: 'Two Block Cut', category: 'haircut', price: 150, image: 'images/haircut-two-block.jpg', description: 'Korean-style side-swept top with short sides.' },
-  { name: 'Mushroom Cut', category: 'haircut', price: 150, image: 'images/haircut-mushroom-cut.jpg', description: 'Rounded top with a soft fringe and short undercut sides.' },
-  { name: 'Layered Cut', category: 'haircut', price: 150, image: 'images/haircut-layered-cut.jpg', description: 'Medium-length layers with curtain bangs.' },
-  { name: 'Shag Cut', category: 'haircut', price: 150, image: 'images/haircut-shag-cut.jpg', description: 'Feathered, choppy layers with lots of movement.' },
-  { name: 'Short Bob', category: 'haircut', price: 150, image: 'images/haircut-short-bob.jpg', description: 'Neat short bob with a soft side part.' },
-  {
-    name: 'Braids',
-    category: 'braids',
-    price: 600,
-    image: 'images/braids.jpg',
-    description: 'Cornrow braids starting at ₱600. ...',
-  },
-  { name: 'Two-Strand Twists', category: 'braids', price: 600, image: 'images/braids-twists.jpg', description: '...' },
-  { name: 'Stitch Cornrows', category: 'braids', price: 600, image: 'images/braids-cornrows.jpg', description: '...' },
-  { name: 'Box Braids', category: 'braids', price: 600, image: 'images/braids-box.jpg', description: '...' },
+  { name: 'Low Taper', category: 'haircut', price: 150, image: 'images/Low-taper.jpg', description: 'Low taper with a clean, natural top.' },
+  { name: 'Mid Taper', category: 'haircut', price: 150, image: 'images/Mid-taper.jpg', description: 'Mid taper that fades smoothly into the top.' },
+  { name: 'Two Block', category: 'haircut', price: 150, image: 'images/Two-blk.jpg', description: 'Korean-style two block with short sides and a longer top.' },
+  { name: 'Two Block Mid', category: 'haircut', price: 150, image: 'images/Two-Blk-mid.jpg', description: 'Two block with a mid-length top and rounded fringe.' },
+  { name: 'Crew Cut', category: 'haircut', price: 150, image: 'images/Crewcut.jpg', description: 'Short, low-maintenance cut that is easy to style.' },
+  { name: 'Undercut', category: 'haircut', price: 150, image: 'images/Undercut.jpg', description: 'Shaved sides with a longer top you can slick back or style up.' },
+  { name: 'Mullet', category: 'haircut', price: 150, image: 'images/Mullet.jpg', description: 'Modern mullet with a textured fringe and longer back.' },
+  { name: '16 Guard', category: 'haircut', price: 150, image: 'images/16-Guard.jpg', description: 'Taper with a textured top.' },
+  { name: '12 Guard', category: 'haircut', price: 150, image: 'images/12-guard.jpg', description: 'Taper with a spiky top.' },
+  { name: 'Buzz Cut', category: 'haircut', price: 150, image: 'images/Buzzcut.jpg', description: 'Clean, short buzz cut with a fade.' },
+  { name: 'Wolf Cut (W)', category: 'haircut', price: 150, image: 'images/Wolfcut-w.jpg', description: 'Feathered, choppy layers with lots of movement.' },
+  { name: 'Apple Cut', category: 'haircut', price: 150, image: 'images/Apple-cut.jpg', description: 'Neat short cut with a soft side part.' },
+  { name: 'Layered Cut (W)', category: 'haircut', price: 150, image: 'images/Layered-w.jpg', description: 'Medium-length layers with curtain bangs.' },
+  { name: 'Box Braids', category: 'braids', price: 600, image: 'images/box-braids.jpg', description: 'Starts at ₱600. The final price depends on length and extensions, so describe it in the notes when you reserve.' },
+  { name: 'Cornrows Braids', category: 'braids', price: 600, image: 'images/Cornrows-braids.jpg', description: 'Starts at ₱600. The final price depends on the number of rows and extensions.' },
+  { name: 'Two Twist Braids', category: 'braids', price: 600, image: 'images/two-twist-Braids.jpg', description: 'Starts at ₱600. The final price depends on hair length and twist size.' },
 ];
+await Service.updateMany({ name: { $nin: SERVICES.map((s) => s.name) } }, { $set: { active: false } });
 
 const BARBERS = [
   { name: 'Kuya Pau', username: 'kuyapau' },
