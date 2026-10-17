@@ -28,7 +28,7 @@ router.post(
     if (acceptTerms !== true) return res.status(400).json({ message: 'Please agree to the Terms and Conditions first.' });
     if (name.length < 2) return res.status(400).json({ message: 'Please enter your full name.' });
     if (!EMAIL_RE.test(email)) return res.status(400).json({ message: 'Please enter a valid email address.' });
-    if (!phone) return res.status(400).json({ message: 'Enter a valid mobile number (e.g. 09171234567).' });
+    if (!phone) return res.status(400).json({ message: 'Enter a valid mobile number (e.g. 09xxxxxxxxx).' });
     if (password.length < 8) return res.status(400).json({ message: 'Password must be at least 8 characters.' });
     if (await User.exists({ email })) return res.status(409).json({ message: 'That email is already registered. Try logging in.' });
 
