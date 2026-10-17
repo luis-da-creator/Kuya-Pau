@@ -26,7 +26,6 @@ const SERVICES = [
   { name: 'Cornrows Braids', category: 'braids', price: 600, image: 'images/Cornrows-braids.jpg', description: 'Starts at ₱600. The final price depends on the number of rows and extensions.' },
   { name: 'Two Twist Braids', category: 'braids', price: 600, image: 'images/two-twist-Braids.jpg', description: 'Starts at ₱600. The final price depends on hair length and twist size.' },
 ];
-await Service.updateMany({ name: { $nin: SERVICES.map((s) => s.name) } }, { $set: { active: false } });
 
 const BARBERS = [
   { name: 'Kuya Pau', username: 'kuyapau' },
@@ -63,6 +62,7 @@ const BARBERS = [
   for (const s of SERVICES) {
     await Service.updateOne({ name: s.name }, { $set: { ...s, active: true } }, { upsert: true });
   }
+  await Service.updateMany({ name: { $nin: SERVICES.map((s) => s.name) } }, { $set: { active: false } });
   console.log(`Services ready: ${SERVICES.map((s) => `${s.name} ₱${s.price}`).join(', ')}`);
 
   process.exit(0);
