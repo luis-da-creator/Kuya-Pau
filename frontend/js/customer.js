@@ -16,6 +16,10 @@ function show() {
 window.addEventListener('hashchange', show);
 $('#logout').onclick = () => logout('customer');
 
+$('#f-ref').addEventListener('input', e => {
+  e.target.value = e.target.value.replace(/\D/g, '');
+});
+
 // ---------- render shop info ----------
 function renderInfo() {
   const { shop, services, barbers, payment } = info;
@@ -150,6 +154,11 @@ $('#res-form').addEventListener('submit', async (e) => {
   if (selectedService().name.toLowerCase().includes('braid') && body.notes.trim().length < 3) {
     return (msg.textContent = 'For braids, describe the braid style and whether you need extensions.');
   }
+  const ref = $('#f-ref').value.trim();
+if (!/^\d+$/.test(ref)) {
+  alert('Reference number must contain numbers only.');
+  return;
+}
   if (!body.paymentRef) return (msg.textContent = 'Please enter your payment reference number.');
 
   const btn = $('#res-submit');
@@ -236,3 +245,9 @@ $('#mine-list').addEventListener('click', async (e) => {
     show();
   } catch (e) { toast(e.message, true); }
 })();
+
+document.addEventListener('input', e => {
+  if (e.target.id === 'f-ref') {
+    e.target.value = e.target.value.replace(/\D/g, '');
+  }
+});
