@@ -68,8 +68,8 @@ router.post(
     const dateError = validateBookingDate(date);
     if (dateError) return res.status(400).json({ message: dateError });
     if (!/^\d{2}:00$/.test(time)) return res.status(400).json({ message: 'Please choose a time slot.' });
-    if (!/^[A-Za-z0-9\-]{6,30}$/.test(paymentRef)) {
-      return res.status(400).json({ message: 'Enter the payment reference number from your down payment (6–30 letters/numbers).' });
+  if (!/^\d{6,30}$/.test(paymentRef)) {
+      return res.status(400).json({ message: 'Enter the payment reference number (6 to 30 digits).' });
     }
 
     const [user, service, barber] = await Promise.all([
